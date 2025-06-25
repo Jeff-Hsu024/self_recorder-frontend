@@ -46,6 +46,7 @@ function DietRecords() {
             <th>Calories</th>
             <th>Description</th>
             <th>Eat Time</th>
+            <th>Category</th>
           </tr>
         </thead>
         <tbody>
@@ -55,6 +56,7 @@ function DietRecords() {
               <td>{record.calories}</td>
               <td>{record.description}</td>
               <td>{record.eatTime.toLocaleString()}</td>
+              <td>{record.foodCategory}</td>
             </tr>
           ))}
         </tbody>

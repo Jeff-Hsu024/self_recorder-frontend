@@ -8,6 +8,7 @@ interface UserFoodLog {
   description: string;
   eatTime: Date;
   logTime: Date;
+  foodCategory: string;
 }
 
 const mockDietData: UserFoodLog[] = [
@@ -19,6 +20,7 @@ const mockDietData: UserFoodLog[] = [
     description: 'Delicious pizza',
     eatTime: new Date(),
     logTime: new Date(),
+    foodCategory: 'Fast Food',
   },
   {
     userFoodLogId: 2,
@@ -28,6 +30,7 @@ const mockDietData: UserFoodLog[] = [
     description: 'Juicy burger',
     eatTime: new Date(),
     logTime: new Date(),
+    foodCategory: 'Fast Food',
   },
   {
     userFoodLogId: 3,
@@ -37,6 +40,7 @@ const mockDietData: UserFoodLog[] = [
     description: 'Healthy salad',
     eatTime: new Date(),
     logTime: new Date(),
+    foodCategory: 'Healthy',
   },
 ];
 
