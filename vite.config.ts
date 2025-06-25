@@ -1,18 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import { loadEnv } from 'vite'
 
-// https://vite.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  return {
-    plugins: [
-      react(),
-      tailwindcss()
-    ],
-    define: {
-      'process.env': env,
-    },
+
+export default defineConfig({
+  plugins: [
+    react(),
+    tailwindcss()
+  ],
+
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://cautious-trout-jj9pprvjqgpqf5q6w-12799.app.github.dev/',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 })

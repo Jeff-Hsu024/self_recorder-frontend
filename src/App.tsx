@@ -7,7 +7,7 @@ import axios from './axios';
 function App() {
   const fetchData = async () => {
     try {
-      const response = await axios.get('/todos');
+      const response = await axios.get('/api/todo');
       console.log(response.data);
     } catch (error) {
       console.error(error);
