@@ -10,11 +10,11 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
   return (
     <ReactPaginate
       breakLabel="..."
-      nextLabel="下一頁 >"
+      nextLabel="Next >"
       onPageChange={onPageChange}
       pageRangeDisplayed={5}
       pageCount={pageCount}
-      previousLabel="< 上一頁"
+      previousLabel="< Prev"
       renderOnZeroPageCount={null}
       containerClassName="join"
       pageClassName="join-item btn"

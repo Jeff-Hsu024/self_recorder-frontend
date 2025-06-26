@@ -30,7 +30,7 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
 
   return (
     <fieldset className="border p-4 rounded-lg">
-      <legend className="text-lg font-semibold"> Filter </legend>
+      <legend className="text-lg font-semilight"> Filter </legend>
       <div className="flex flex-row space-x-4 w-full">
         <DateRangePicker
           startDate={startDate}

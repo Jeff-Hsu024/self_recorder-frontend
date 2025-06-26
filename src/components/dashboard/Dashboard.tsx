@@ -27,9 +27,10 @@ function Dashboard() {
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col p-4 w-full">
+      <div className="drawer-content flex flex-col pl-4 w-full">
         <label htmlFor="my-drawer-2" className="btn btn-outline btn-neutral drawer-button lg:hidden mt-4">Open menu</label>
         <FilterForm onFilterChange={handleFilterChange} />
+        <br />
         {activeTab === 'diet' && <DietRecords />}
         {activeTab === 'sleep' && <SleepRecords />}
         {activeTab === 'weight' && <WeightRecords />}
