@@ -42,18 +42,28 @@ function Header() {
             {themes.map((theme) => (
               <li key={theme}>
                 <button
-                  className={`gap-3 px-2 w-full ${currentTheme === theme ? 'active' : ''}`}
+                  className={`gap-3 px-2 w-full flex items-center ${currentTheme === theme ? 'active' : ''}`}
                   data-set-theme={theme}
                   data-act-class="[&_svg]:visible"
                   onClick={() => handleThemeChange(theme)}
                 >
                   <div data-theme={theme} className="bg-base-100 grid shrink-0 grid-cols-2 gap-0.5 rounded-md p-1 shadow-sm">
-                      <div className="bg-base-content size-1 rounded"></div>
-                      <div className="bg-primary size-1 rounded"></div>
-                      <div className="bg-secondary size-1 rounded"></div>
-                      <div className="bg-accent size-1 rounded"></div>
-                    </div>
-                    <div className="w-32 truncate">{theme}</div>
+                    <div className="bg-base-content size-1 rounded"></div>
+                    <div className="bg-primary size-1 rounded"></div>
+                    <div className="bg-secondary size-1 rounded"></div>
+                    <div className="bg-accent size-1 rounded"></div>
+                  </div>
+                  <div className="w-32 truncate">{theme}</div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className={`h-3 w-3 shrink-0 ${currentTheme === theme ? 'visible' : 'invisible'}`}
+                  >
+                    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path>
+                  </svg>
                 </button>
               </li>
             ))}
