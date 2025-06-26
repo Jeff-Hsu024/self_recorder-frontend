@@ -42,6 +42,7 @@ function Charts() {
     ],
   });
   const [chartType, setChartType] = useState<'bar' | 'pie' | 'line'>('bar');
+  const [selectedLabels, setSelectedLabels] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     getChartData().subscribe((data) => {
@@ -71,8 +72,22 @@ function Charts() {
         ],
       };
       setChartData(newChartData);
+
+      // Initialize selectedLabels with all labels selected
+      const initialSelectedLabels: Record<string, boolean> = {};
+      foodCategories.forEach((label) => {
+        initialSelectedLabels[label] = true;
+      });
+      setSelectedLabels(initialSelectedLabels);
     });
   }, []);
+
+  const handleLabelChange = (label: string) => {
+    setSelectedLabels((prevSelectedLabels) => ({
+      ...prevSelectedLabels,
+      [label]: !prevSelectedLabels[label],
+    }));
+  };
 
   const options = {
     responsive: true,
@@ -88,15 +103,26 @@ function Charts() {
   };
 
   const renderChart = () => {
+    const filteredLabels = Object.keys(selectedLabels).filter((label) => selectedLabels[label]);
+    const filteredChartData = {
+      labels: filteredLabels,
+      datasets: [
+        {
+          ...chartData.datasets[0],
+          data: chartData.datasets[0].data.filter((_, index) => filteredLabels.includes(chartData.labels[index])),
+        },
+      ],
+    };
+
     switch (chartType) {
       case 'bar':
-        return <Bar options={options} data={chartData} />;
+        return <Bar options={options} data={filteredChartData} />;
       case 'pie':
-        return <Pie options={options} data={chartData} />;
+        return <Pie options={options} data={filteredChartData} />;
       case 'line':
-        return <Line options={options} data={chartData} />;
+        return <Line options={options} data={filteredChartData} />;
       default:
-        return <Bar options={options} data={chartData} />;
+        return <Bar options={options} data={filteredChartData} />;
     }
   };
 
@@ -107,6 +133,20 @@ function Charts() {
         <button className="btn btn-sm" onClick={() => setChartType('bar')}>Bar</button>
         <button className="btn btn-sm" onClick={() => setChartType('pie')}>Pie</button>
         <button className="btn btn-sm" onClick={() => setChartType('line')}>Line</button>
+      </div>
+      <div className="mb-4">
+        {chartData.labels.map((label) => (
+          <label key={label} className="inline-flex items-center mr-4">
+            <input
+              type="checkbox"
+              className="form-checkbox h-5 w-5 text-blue-600"
+              value={label}
+              checked={selectedLabels[label] !== false}
+              onChange={() => handleLabelChange(label)}
+            />
+            <span className="ml-2 text-gray-700">{label}</span>
+          </label>
+        ))}
       </div>
       {renderChart()}
     </div>
