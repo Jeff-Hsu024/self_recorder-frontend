@@ -39,7 +39,9 @@ function CustomDataGrid({ data, columns, pageCount, onPageChange }: CustomDataGr
           </tbody>
         </table>
       </div>
-      <Pagination pageCount={pageCount} onPageChange={onPageChange} />
+      <div className="flex justify-center mt-4">
+        <Pagination pageCount={pageCount} onPageChange={onPageChange} />
+      </div>
     </div>
   );
 }
