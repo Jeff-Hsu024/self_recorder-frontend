@@ -35,7 +35,7 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
         <IconRender iconName="MdFilterList" className="size-5 mr-2" />
         Filter
       </legend>
-      <div className="flex flex-row space-x-4 w-full">
+      <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 w-full">
         <DateRangePicker
           startDate={startDate}
           endDate={endDate}

@@ -2,7 +2,7 @@ import Dashboard from '../dashboard/Dashboard';
 
 function MainContent() {
   return (
-    <main className="container mx-auto py-8">
+    <main className="w-full px-4 py-8 sm:px-6 lg:px-8">
       <Dashboard />
     </main>
   );
