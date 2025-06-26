@@ -1,22 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getDietRecords, UserFoodLog } from '../../services/DietService';
 import { setChartData } from '../../services/ChartService';
 import { getFilterFormSettings } from '../../services/FilterFormService';
-import Pagination from '../dashboard/Pagination';
+import CustomDataGrid from '../layout/CustomDataGrid';
+import CustomDataGridService from '../../services/CustomDataGridService';
 import Charts from '../dashboard/Charts';
 
+const dietDataGridService = new CustomDataGridService<UserFoodLog>();
+
 function DietRecords() {
-  const [dietRecords, setDietRecords] = useState<UserFoodLog[]>([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 10;
+  const [dataGridState, setDataGridState] = useState(dietDataGridService['dataSubject'].getValue());
+
+  const dietColumns = useMemo(() => [
+    { header: 'Food Name', accessor: 'foodName' },
+    { header: 'Calories', accessor: 'calories' },
+    { header: 'Description', accessor: 'description' },
+    { header: 'Eat Time', accessor: 'eatTime', render: (item: UserFoodLog) => item.eatTime.toLocaleString() },
+    { header: 'Category', accessor: 'foodCategory' },
+  ], []);
+
+  useEffect(() => {
+    const subscription = dietDataGridService.getDataGridState().subscribe(setDataGridState);
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     getFilterFormSettings().subscribe((filterSettings) => {
       getDietRecords(filterSettings.startDate, filterSettings.endDate, filterSettings.keyword).subscribe((data) => {
-        const endOffset = itemOffset + itemsPerPage;
-        setDietRecords(data.slice(itemOffset, endOffset));
-        setPageCount(Math.ceil(data.length / itemsPerPage));
+        dietDataGridService.setData(data, dataGridState.itemOffset);
 
         const labels = data.map((record) => record.foodName);
         const calories = data.map((record) => record.calories);
@@ -45,11 +56,22 @@ function DietRecords() {
         setChartData(chartData);
       });
     });
-  }, [itemOffset]);
+  }, [dataGridState.itemOffset, dataGridState.itemsPerPage, dataGridState.sortColumn, dataGridState.sortDirection]);
 
   const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * itemsPerPage) % dietRecords.length;
-    setItemOffset(newOffset);
+    const newOffset = (event.selected * dataGridState.itemsPerPage);
+    dietDataGridService.setItemOffset(newOffset);
+  };
+
+  const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newItemsPerPage = parseInt(event.target.value, 10);
+    if (!isNaN(newItemsPerPage) && newItemsPerPage > 0) {
+      dietDataGridService.setItemsPerPage(newItemsPerPage);
+    }
+  };
+
+  const handleSort = (column: keyof UserFoodLog) => {
+    dietDataGridService.setSort(column);
   };
 
   return (
@@ -68,33 +90,35 @@ function DietRecords() {
         Records
       </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">
-        <div className="w-full">
-          <div className="overflow-x-auto">
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Food Name</th>
-                  <th>Calories</th>
-                  <th>Description</th>
-                  <th>Eat Time</th>
-                  <th>Category</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dietRecords.map((record) => (
-                  <tr key={record.userFoodLogId}>
-                    <td>{record.foodName}</td>
-                    <td>{record.calories}</td>
-                    <td>{record.description}</td>
-                    <td>{record.eatTime.toLocaleString()}</td>
-                    <td>{record.foodCategory}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
+        <div className="mb-4">
+          <label htmlFor="itemsPerPage" className="label">
+            <span className="label-text">每頁顯示筆數:</span>
+          </label>
+          <input
+            type="number"
+            id="itemsPerPage"
+            className="input input-bordered w-20"
+            value={dataGridState.itemsPerPage}
+            onChange={handleItemsPerPageChange}
+            min="1"
+          />
         </div>
+        <CustomDataGrid
+          data={dataGridState.displayData}
+          columns={dietColumns.map(col => ({
+            ...col,
+            header: (
+              <div className="flex items-center cursor-pointer" onClick={() => handleSort(col.accessor as keyof UserFoodLog)}>
+                {col.header}
+                {dataGridState.sortColumn === col.accessor && (
+                  <span>{dataGridState.sortDirection === 'asc' ? ' ▲' : ' ▼'}</span>
+                )}
+              </div>
+            ),
+          }))}
+          pageCount={dataGridState.pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
     </div>
   );

@@ -22,6 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
       previousLinkClassName="join-item btn"
       nextLinkClassName="join-item btn"
       disabledClassName="btn-disabled"
+      forcePage={0} // This will force the pagination to start at page 0
     />
   );
 };
