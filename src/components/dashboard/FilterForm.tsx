@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DateRangePicker from './DateRangePicker';
+import IconRender from '../utility/IconRender';
 
 interface FilterFormProps {
   onFilterChange: (startDate: Date, endDate: Date, keyword: string) => void;
@@ -30,7 +31,10 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
 
   return (
     <fieldset className="border p-4 rounded-lg">
-      <legend className="text-lg font-semilight"> Filter </legend>
+      <legend className="text-lg font-semilight flex items-center">
+        <IconRender iconName="MdFilterList" className="size-5 mr-2" />
+        Filter
+      </legend>
       <div className="flex flex-row space-x-4 w-full">
         <DateRangePicker
           startDate={startDate}
@@ -40,7 +44,10 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
         />
         <div className="form-control w-full">
           <label className="label" htmlFor="keyword">
-            <span className="label-text">Keyword:</span>
+            <span className="label-text flex items-center">
+              <IconRender iconName="MdSearch" className="size-5 mr-2" />
+              Keyword:
+            </span>
           </label>
           <input
             type="text"

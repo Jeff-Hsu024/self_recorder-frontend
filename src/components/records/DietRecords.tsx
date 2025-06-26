@@ -5,6 +5,7 @@ import { getFilterFormSettings } from '../../services/FilterFormService';
 import CustomDataGrid from '../layout/CustomDataGrid';
 import CustomDataGridService from '../../services/CustomDataGridService';
 import Charts from '../dashboard/Charts';
+import IconRender from '../utility/IconRender';
 
 const dietDataGridService = new CustomDataGridService<UserFoodLog>();
 
@@ -79,7 +80,7 @@ function DietRecords() {
     <div className="tabs tabs-lift">
       <label className="tab">
         <input type="radio" name="my_tabs_4" defaultChecked />
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 me-2"><path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" /></svg>
+        <IconRender iconName="MdFastfood" className="size-4 me-2" />
         Charts
       </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">
@@ -87,13 +88,13 @@ function DietRecords() {
       </div>
       <label className="tab">
         <input type="radio" name="my_tabs_4" />
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 me-2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" /></svg>
+        <IconRender iconName="MdFastfood" className="size-4 me-2" />
         Records
       </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">
         <div className="mb-4">
           <label htmlFor="itemsPerPage" className="label">
-            <span className="label-text">每頁顯示筆數:</span>
+            <span className="label-text">size:</span>
           </label>
           <input
             type="number"
@@ -113,9 +114,9 @@ function DietRecords() {
                 {col.header}
                 {dataGridState.sortColumn === col.accessor && (
                   dataGridState.sortDirection === 'asc' ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 ml-1"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" /></svg>
+                    <IconRender iconName="MdArrowUpward" className="size-4 ml-1" />
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 ml-1"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" /></svg>
+                    <IconRender iconName="MdArrowDownward" className="size-4 ml-1" />
                   )
                 )}
               </div>

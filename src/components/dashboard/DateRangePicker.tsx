@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import IconRender from '../utility/IconRender';
 
 interface DateRangePickerProps {
   startDate: Date;
@@ -17,7 +18,10 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
     <>
       <div className="form-control w-full">
         <label className="label" htmlFor="startDate">
-          <span className="label-text">Begin Date: </span>
+          <span className="label-text flex items-center">
+            <IconRender iconName="MdCalendarMonth" className="size-5 mr-2" />
+            Begin Date:
+          </span>
         </label>
         <input
           type="date"
@@ -30,7 +34,10 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       </div>
       <div className="form-control w-full">
         <label className="label" htmlFor="endDate">
-          <span className="label-text">End Date:</span>
+          <span className="label-text flex items-center">
+            <IconRender iconName="MdCalendarMonth" className="size-5 mr-2" />
+            End Date:
+          </span>
         </label>
         <input
           type="date"

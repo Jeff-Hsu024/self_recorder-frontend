@@ -4,6 +4,7 @@ import SleepRecords from '../records/SleepRecords';
 import WeightRecords from '../records/WeightRecords';
 import ExerciseRecords from '../records/ExerciseRecords';
 import FilterForm from './FilterForm';
+import IconRender from '../utility/IconRender';
 import { initializeFilterFormSettings, setFilterFormSettings, type FilterFormSettings } from '../../services/FilterFormService';
 
 function Dashboard() {
@@ -45,6 +46,7 @@ function Dashboard() {
               className={activeTab === 'diet' ? 'active' : ''}
               onClick={() => setActiveTab('diet')}
             >
+              <IconRender iconName="MdFastfood" className="size-5" />
               Diet Records
             </a>
           </li>
@@ -53,6 +55,7 @@ function Dashboard() {
               className={activeTab === 'sleep' ? 'active' : ''}
               onClick={() => setActiveTab('sleep')}
             >
+              <IconRender iconName="MdKingBed" className="size-5" />
               Sleep Records
             </a>
           </li>
@@ -61,6 +64,7 @@ function Dashboard() {
               className={activeTab === 'weight' ? 'active' : ''}
               onClick={() => setActiveTab('weight')}
             >
+              <IconRender iconName="MdMonitorWeight" className="size-5" />
               Weight Records
             </a>
           </li>
@@ -69,6 +73,7 @@ function Dashboard() {
               className={activeTab === 'exercise' ? 'active' : ''}
               onClick={() => setActiveTab('exercise')}
             >
+              <IconRender iconName="MdFitnessCenter" className="size-5" />
               Exercise Records
             </a>
           </li>
