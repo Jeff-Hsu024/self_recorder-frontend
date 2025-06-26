@@ -1,50 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DietRecords from './DietRecords';
 import SleepRecords from './SleepRecords';
 import WeightRecords from './WeightRecords';
 import ExerciseRecords from './ExerciseRecords';
 import Charts from './Charts';
+import FilterForm from './FilterForm'; // Import FilterForm
+import { initializeFilterFormSettings, setFilterFormSettings, type FilterFormSettings } from '../services/FilterFormService'; // Import filter services
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState('diet');
+  const [filterSettings, setFilterSettings] = useState<FilterFormSettings>({
+    startDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()),
+    endDate: new Date(),
+    keyword: '',
+  });
+
+  useEffect(() => {
+    initializeFilterFormSettings(filterSettings);
+  }, []);
+
+  const handleFilterChange = (startDate: Date, endDate: Date, keyword: string) => {
+    const newSettings = { startDate, endDate, keyword };
+    setFilterSettings(newSettings);
+    setFilterFormSettings(newSettings);
+  };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
-      <div className="flex border-b">
-        <button
-          className={`px-4 py-2 font-bold ${activeTab === 'diet' ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'}`}
-          onClick={() => setActiveTab('diet')}
-        >
-          Diet
-        </button>
-        <button
-          className={`px-4 py-2 font-bold ${activeTab === 'sleep' ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'}`}
-          onClick={() => setActiveTab('sleep')}
-        >
-          Sleep
-        </button>
-        <button
-          className={`px-4 py-2 font-bold ${activeTab === 'weight' ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'}`}
-          onClick={() => setActiveTab('weight')}
-        >
-          Weight
-        </button>
-        <button
-          className={`px-4 py-2 font-bold ${activeTab === 'exercise' ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'}`}
-          onClick={() => setActiveTab('exercise')}
-        >
-          Exercise
-        </button>
-      </div>
-
-      <div className="py-4">
+    <div className="drawer lg:drawer-open">
+      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content flex flex-col items-center justify-center p-4">
+        {/* Page content here */}
+        <FilterForm onFilterChange={handleFilterChange} /> {/* Render FilterForm here */}
         {activeTab === 'diet' && <DietRecords />}
         {activeTab === 'sleep' && <SleepRecords />}
         {activeTab === 'weight' && <WeightRecords />}
         {activeTab === 'exercise' && <ExerciseRecords />}
+        <Charts />
+        <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden mt-4">Open menu</label>
       </div>
-
-      <Charts />
+      <div className="drawer-side">
+        <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
+        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+          {/* Sidebar content here */}
+          <li>
+            <a
+              className={activeTab === 'diet' ? 'active' : ''}
+              onClick={() => setActiveTab('diet')}
+            >
+              飲食紀錄
+            </a>
+          </li>
+          <li>
+            <a
+              className={activeTab === 'sleep' ? 'active' : ''}
+              onClick={() => setActiveTab('sleep')}
+            >
+              睡眠紀錄
+            </a>
+          </li>
+          <li>
+            <a
+              className={activeTab === 'weight' ? 'active' : ''}
+              onClick={() => setActiveTab('weight')}
+            >
+              體重紀錄
+            </a>
+          </li>
+          <li>
+            <a
+              className={activeTab === 'exercise' ? 'active' : ''}
+              onClick={() => setActiveTab('exercise')}
+            >
+              運動紀錄
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
