@@ -1,6 +1,7 @@
 {
   "name": "self_recorder-frontend",
   "private": true,
+  "homepage": "https://jeff-hsu024.github.io/self_recorder-frontend",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -8,12 +9,15 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "tailwind-init": "tailwindcss init -p"
+    "tailwind-init": "tailwindcss init -p",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
     "@types/react-router-dom": "^5.3.3",
     "chart.js": "^4.5.0",
+    "gh-pages": "^6.3.0",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",

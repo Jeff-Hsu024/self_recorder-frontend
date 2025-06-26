@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -81,13 +81,6 @@ function Charts() {
       setSelectedLabels(initialSelectedLabels);
     });
   }, []);
-
-  const handleLabelChange = (label: string) => {
-    setSelectedLabels((prevSelectedLabels) => ({
-      ...prevSelectedLabels,
-      [label]: !prevSelectedLabels[label],
-    }));
-  };
 
   const options = {
     responsive: true,

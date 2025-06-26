@@ -53,12 +53,14 @@ class CustomDataGridService<T> {
     const { fullData, itemsPerPage } = currentState; // Use fullData for slicing
     const newPageCount = Math.ceil(fullData.length / itemsPerPage);
 
+    console.log('CustomDataGridService - Before next, newOffset:', newOffset);
     this.dataSubject.next({
       ...currentState,
       displayData: fullData.slice(newOffset, newOffset + itemsPerPage),
       pageCount: newPageCount,
       itemOffset: newOffset,
     });
+    console.log('CustomDataGridService - After next, current itemOffset in subject:', this.dataSubject.getValue().itemOffset);
   }
 
   public setItemsPerPage(newItemsPerPage: number) {

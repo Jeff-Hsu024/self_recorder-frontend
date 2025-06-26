@@ -1,5 +1,3 @@
-import React from 'react';
-
 function AISuggestions() {
   return (
     <div className="bg-white rounded-lg shadow-md p-4">

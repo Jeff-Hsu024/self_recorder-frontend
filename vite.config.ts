@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-
+  base: '/self_recorder-frontend/',
   server: {
     proxy: {
       '/api': {

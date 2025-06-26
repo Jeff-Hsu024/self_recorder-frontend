@@ -1,7 +1,4 @@
-import React from 'react';
 import Dashboard from '../dashboard/Dashboard';
-
-interface MainContentProps {}
 
 function MainContent() {
   return (

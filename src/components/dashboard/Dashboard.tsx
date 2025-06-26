@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import DietRecords from '../records/DietRecords';
 import SleepRecords from '../records/SleepRecords';
 import WeightRecords from '../records/WeightRecords';
