@@ -20,7 +20,7 @@ function CustomDataGrid({ data, columns, pageCount, onPageChange }: CustomDataGr
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
-            <tr>onPageChange
+            <tr>
               {columns.map((column) => (
                 <th key={column.accessor}>{column.header}</th>
               ))}

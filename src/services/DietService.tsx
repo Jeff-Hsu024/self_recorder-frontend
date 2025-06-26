@@ -11,208 +11,32 @@ interface UserFoodLog {
   foodCategory: string;
 }
 
-const mockDietData: UserFoodLog[] = [
-  {
-    userFoodLogId: 1,
-    user: null,
-    foodName: 'Pizza',
-    calories: 300,
-    description: 'Delicious pizza',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Fast Food',
-  },
-  {
-    userFoodLogId: 2,
-    user: null,
-    foodName: 'Burger',
-    calories: 500,
-    description: 'Juicy burger',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Fast Food',
-  },
-  {
-    userFoodLogId: 3,
-    user: null,
-    foodName: 'Salad',
-    calories: 150,
-    description: 'Healthy salad',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Healthy',
-  },
-  {
-    userFoodLogId: 4,
-    user: null,
-    foodName: 'Steak',
-    calories: 700,
-    description: 'Grilled steak',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Meat',
-  },
-  {
-    userFoodLogId: 5,
-    user: null,
-    foodName: 'Chicken',
-    calories: 400,
-    description: 'Roasted chicken',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Meat',
-  },
-  {
-    userFoodLogId: 6,
-    user: null,
-    foodName: 'Fish',
-    calories: 300,
-    description: 'Baked fish',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Seafood',
-  },
-  {
-    userFoodLogId: 7,
-    user: null,
-    foodName: 'Pasta',
-    calories: 600,
-    description: 'Spaghetti with tomato sauce',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Italian',
-  },
-  {
-    userFoodLogId: 8,
-    user: null,
-    foodName: 'Rice',
-    calories: 200,
-    description: 'White rice',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Grain',
-  },
-  {
-    userFoodLogId: 9,
-    user: null,
-    foodName: 'Bread',
-    calories: 150,
-    description: 'Whole wheat bread',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Grain',
-  },
-  {
-    userFoodLogId: 10,
-    user: null,
-    foodName: 'Eggs',
-    calories: 80,
-    description: 'Scrambled eggs',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Protein',
-  },
-  {
-    userFoodLogId: 11,
-    user: null,
-    foodName: 'Milk',
-    calories: 100,
-    description: 'Whole milk',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Dairy',
-  },
-  {
-    userFoodLogId: 12,
-    user: null,
-    foodName: 'Cheese',
-    calories: 120,
-    description: 'Cheddar cheese',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Dairy',
-  },
-  {
-    userFoodLogId: 13,
-    user: null,
-    foodName: 'Yogurt',
-    calories: 150,
-    description: 'Greek yogurt',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Dairy',
-  },
-  {
-    userFoodLogId: 14,
-    user: null,
-    foodName: 'Apple',
-    calories: 95,
-    description: 'Red apple',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Fruit',
-  },
-  {
-    userFoodLogId: 15,
-    user: null,
-    foodName: 'Banana',
-    calories: 105,
-    description: 'Yellow banana',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Fruit',
-  },
-  {
-    userFoodLogId: 16,
-    user: null,
-    foodName: 'Orange',
-    calories: 62,
-    description: 'Navel orange',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Fruit',
-  },
-  {
-    userFoodLogId: 17,
-    user: null,
-    foodName: 'Grapes',
-    calories: 104,
-    description: 'Green grapes',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Fruit',
-  },
-  {
-    userFoodLogId: 18,
-    user: null,
-    foodName: 'Carrot',
-    calories: 25,
-    description: 'Orange carrot',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Vegetable',
-  },
-  {
-    userFoodLogId: 19,
-    user: null,
-    foodName: 'Broccoli',
-    calories: 55,
-    description: 'Green broccoli',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Vegetable',
-  },
-  {
-    userFoodLogId: 20,
-    user: null,
-    foodName: 'Spinach',
-    calories: 7,
-    description: 'Green spinach',
-    eatTime: new Date(),
-    logTime: new Date(),
-    foodCategory: 'Vegetable',
-  },
-];
+const generateMockDietData = (count: number): UserFoodLog[] => {
+  const data: UserFoodLog[] = [];
+  const foodNames = ['Pizza', 'Burger', 'Salad', 'Steak', 'Chicken', 'Fish', 'Pasta', 'Rice', 'Bread', 'Eggs', 'Milk', 'Cheese', 'Yogurt', 'Apple', 'Banana', 'Orange', 'Grapes', 'Carrot', 'Broccoli', 'Spinach'];
+  const foodCategories = ['Fast Food', 'Healthy', 'Meat', 'Seafood', 'Italian', 'Grain', 'Protein', 'Dairy', 'Fruit', 'Vegetable'];
+
+  for (let i = 1; i <= count; i++) {
+    const randomFoodName = foodNames[Math.floor(Math.random() * foodNames.length)];
+    const randomCalories = Math.floor(Math.random() * 600) + 50; // 50-650 calories
+    const randomCategory = foodCategories[Math.floor(Math.random() * foodCategories.length)];
+    const randomDate = new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000); // Last 30 days
+
+    data.push({
+      userFoodLogId: i,
+      user: null,
+      foodName: `${randomFoodName} ${i}`,
+      calories: randomCalories,
+      description: `Description for ${randomFoodName} ${i}`,
+      eatTime: randomDate,
+      logTime: new Date(),
+      foodCategory: randomCategory,
+    });
+  }
+  return data;
+};
+
+const mockDietData: UserFoodLog[] = generateMockDietData(200);
 
 const getDietRecords = (startDate: Date, endDate: Date, keyword: string) => {
   const filteredData = mockDietData.filter((record) => {
