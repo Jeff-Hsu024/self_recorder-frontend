@@ -134,20 +134,6 @@ function Charts() {
         <button className="btn btn-sm" onClick={() => setChartType('pie')}>Pie</button>
         <button className="btn btn-sm" onClick={() => setChartType('line')}>Line</button>
       </div>
-      <div className="mb-4">
-        {chartData.labels.map((label) => (
-          <label key={label} className="inline-flex items-center mr-4">
-            <input
-              type="checkbox"
-              className="form-checkbox h-5 w-5 text-blue-600"
-              value={label}
-              checked={selectedLabels[label] !== false}
-              onChange={() => handleLabelChange(label)}
-            />
-            <span className="ml-2 text-gray-700">{label}</span>
-          </label>
-        ))}
-      </div>
       {renderChart()}
     </div>
   );

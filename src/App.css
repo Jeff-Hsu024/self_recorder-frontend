@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+* {
+    font-family: 'Fira Code','Noto Sans CJK TC', monospace;
+}

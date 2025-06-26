@@ -46,7 +46,7 @@ function Dashboard() {
               className={activeTab === 'diet' ? 'active' : ''}
               onClick={() => setActiveTab('diet')}
             >
-              飲食紀錄
+              Diet Records
             </a>
           </li>
           <li>
@@ -54,7 +54,7 @@ function Dashboard() {
               className={activeTab === 'sleep' ? 'active' : ''}
               onClick={() => setActiveTab('sleep')}
             >
-              睡眠紀錄
+              Sleep Records
             </a>
           </li>
           <li>
@@ -62,7 +62,7 @@ function Dashboard() {
               className={activeTab === 'weight' ? 'active' : ''}
               onClick={() => setActiveTab('weight')}
             >
-              體重紀錄
+              Weight Records
             </a>
           </li>
           <li>
@@ -70,7 +70,7 @@ function Dashboard() {
               className={activeTab === 'exercise' ? 'active' : ''}
               onClick={() => setActiveTab('exercise')}
             >
-              運動紀錄
+              Exercise Records
             </a>
           </li>
         </ul>

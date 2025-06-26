@@ -30,7 +30,7 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
 
   return (
     <fieldset className="border p-4 rounded-lg">
-      <legend className="text-lg font-semibold">篩選條件</legend>
+      <legend className="text-lg font-semibold"> Filter </legend>
       <div className="flex flex-row space-x-4 w-full">
         <DateRangePicker
           startDate={startDate}
@@ -40,7 +40,7 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
         />
         <div className="form-control w-full">
           <label className="label" htmlFor="keyword">
-            <span className="label-text">關鍵字:</span>
+            <span className="label-text">Keyword:</span>
           </label>
           <input
             type="text"
@@ -48,7 +48,7 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
             className="input input-bordered w-full"
             value={keyword}
             onChange={handleKeywordChange}
-            placeholder="請輸入關鍵字"
+            placeholder="type keyword"
           />
         </div>
       </div>
