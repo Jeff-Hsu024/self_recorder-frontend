@@ -128,7 +128,6 @@ function Charts() {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4 w-full">
-      <h3 className="text-lg font-bold mb-2">Charts</h3>
       <div className="flex justify-around mb-4">
         <button className="btn btn-sm" onClick={() => setChartType('bar')}>Bar</button>
         <button className="btn btn-sm" onClick={() => setChartType('pie')}>Pie</button>

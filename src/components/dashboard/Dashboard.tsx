@@ -3,7 +3,6 @@ import DietRecords from '../records/DietRecords';
 import SleepRecords from '../records/SleepRecords';
 import WeightRecords from '../records/WeightRecords';
 import ExerciseRecords from '../records/ExerciseRecords';
-import Charts from './Charts';
 import FilterForm from './FilterForm';
 import { initializeFilterFormSettings, setFilterFormSettings, type FilterFormSettings } from '../../services/FilterFormService';
 
@@ -35,7 +34,6 @@ function Dashboard() {
         {activeTab === 'sleep' && <SleepRecords />}
         {activeTab === 'weight' && <WeightRecords />}
         {activeTab === 'exercise' && <ExerciseRecords />}
-        <Charts />
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
