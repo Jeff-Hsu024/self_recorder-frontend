@@ -25,9 +25,9 @@ function DietRecords() {
   }, []);
 
   useEffect(() => {
-    getFilterFormSettings().subscribe((filterSettings) => {
+    const filterSubscription = getFilterFormSettings().subscribe((filterSettings) => {
       getDietRecords(filterSettings.startDate, filterSettings.endDate, filterSettings.keyword).subscribe((data) => {
-        dietDataGridService.setData(data, dataGridState.itemOffset);
+        dietDataGridService.setData(data, 0); // Reset offset to 0 when new data is fetched
 
         const labels = data.map((record) => record.foodName);
         const calories = data.map((record) => record.calories);
@@ -56,7 +56,8 @@ function DietRecords() {
         setChartData(chartData);
       });
     });
-  }, [dataGridState.itemOffset, dataGridState.itemsPerPage, dataGridState.sortColumn, dataGridState.sortDirection]);
+    return () => filterSubscription.unsubscribe();
+  }, []); // Only re-run when filter settings change (implicitly handled by subscription)
 
   const handlePageClick = (event: { selected: number }) => {
     const newOffset = (event.selected * dataGridState.itemsPerPage);
@@ -111,7 +112,11 @@ function DietRecords() {
               <div className="flex items-center cursor-pointer" onClick={() => handleSort(col.accessor as keyof UserFoodLog)}>
                 {col.header}
                 {dataGridState.sortColumn === col.accessor && (
-                  <span>{dataGridState.sortDirection === 'asc' ? ' ▲' : ' ▼'}</span>
+                  dataGridState.sortDirection === 'asc' ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 ml-1"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" /></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 ml-1"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" /></svg>
+                  )
                 )}
               </div>
             ),

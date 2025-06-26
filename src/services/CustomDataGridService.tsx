@@ -39,7 +39,7 @@ class CustomDataGridService<T> {
 
     this.dataSubject.next({
       displayData: sortedData.slice(itemOffset, itemOffset + newItemsPerPage),
-      fullData: sortedData,
+      fullData: sortedData, // Store the full, sorted data
       pageCount: newPageCount,
       itemOffset: itemOffset,
       itemsPerPage: newItemsPerPage,
@@ -50,7 +50,7 @@ class CustomDataGridService<T> {
 
   public setItemOffset(newOffset: number) {
     const currentState = this.dataSubject.getValue();
-    const { fullData, itemsPerPage, sortColumn, sortDirection } = currentState;
+    const { fullData, itemsPerPage } = currentState; // Use fullData for slicing
     const newPageCount = Math.ceil(fullData.length / itemsPerPage);
 
     this.dataSubject.next({
@@ -63,7 +63,7 @@ class CustomDataGridService<T> {
 
   public setItemsPerPage(newItemsPerPage: number) {
     const currentState = this.dataSubject.getValue();
-    const { fullData, itemOffset, sortColumn, sortDirection } = currentState;
+    const { fullData, itemOffset } = currentState; // Use fullData for slicing
     const newPageCount = Math.ceil(fullData.length / newItemsPerPage);
 
     this.dataSubject.next({
