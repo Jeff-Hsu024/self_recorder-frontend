@@ -15,27 +15,27 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 }) => {
   return (
     <>
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         <label className="label" htmlFor="startDate">
           <span className="label-text">開始日期:</span>
         </label>
         <input
           type="date"
           id="startDate"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full"
           value={startDate.toISOString().split('T')[0]}
           onChange={(e) => onStartDateChange(new Date(e.target.value))}
           required
         />
       </div>
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         <label className="label" htmlFor="endDate">
           <span className="label-text">結束日期:</span>
         </label>
         <input
           type="date"
           id="endDate"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full"
           value={endDate.toISOString().split('T')[0]}
           onChange={(e) => onEndDateChange(new Date(e.target.value))}
           required

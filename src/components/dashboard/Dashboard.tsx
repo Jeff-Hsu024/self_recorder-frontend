@@ -28,9 +28,8 @@ function Dashboard() {
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col items-center justify-center p-4">
-        {/* Page content here */}
-        <FilterForm onFilterChange={handleFilterChange} /> {/* Render FilterForm here */}
+      <div className="drawer-content flex flex-col p-4 w-full">
+        <FilterForm onFilterChange={handleFilterChange} />
         {activeTab === 'diet' && <DietRecords />}
         {activeTab === 'sleep' && <SleepRecords />}
         {activeTab === 'weight' && <WeightRecords />}

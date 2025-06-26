@@ -31,21 +31,21 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
   return (
     <fieldset className="border p-4 rounded-lg">
       <legend className="text-lg font-semibold">篩選條件</legend>
-      <div className="flex flex-row space-x-4">
+      <div className="flex flex-row space-x-4 w-full">
         <DateRangePicker
           startDate={startDate}
           endDate={endDate}
           onStartDateChange={handleStartDateChange}
           onEndDateChange={handleEndDateChange}
         />
-        <div className="form-control w-full max-w-xs">
+        <div className="form-control w-full">
           <label className="label" htmlFor="keyword">
             <span className="label-text">關鍵字:</span>
           </label>
           <input
             type="text"
             id="keyword"
-            className="input input-bordered w-full max-w-xs"
+            className="input input-bordered w-full"
             value={keyword}
             onChange={handleKeywordChange}
             placeholder="請輸入關鍵字"
