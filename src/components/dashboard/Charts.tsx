@@ -13,7 +13,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { getChartData, ChartData } from '../services/ChartService';
+import { getChartData, ChartData } from '../../services/ChartService';
 
 ChartJS.register(
   CategoryScale,

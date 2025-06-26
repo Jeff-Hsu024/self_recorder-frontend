@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import DietRecords from './DietRecords';
-import SleepRecords from './SleepRecords';
-import WeightRecords from './WeightRecords';
-import ExerciseRecords from './ExerciseRecords';
+import DietRecords from '../records/DietRecords';
+import SleepRecords from '../records/SleepRecords';
+import WeightRecords from '../records/WeightRecords';
+import ExerciseRecords from '../records/ExerciseRecords';
 import Charts from './Charts';
-import FilterForm from './FilterForm'; // Import FilterForm
-import { initializeFilterFormSettings, setFilterFormSettings, type FilterFormSettings } from '../services/FilterFormService'; // Import filter services
+import FilterForm from './FilterForm';
+import { initializeFilterFormSettings, setFilterFormSettings, type FilterFormSettings } from '../../services/FilterFormService';
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState('diet');

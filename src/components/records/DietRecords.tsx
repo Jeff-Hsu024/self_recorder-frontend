@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getDietRecords, UserFoodLog } from '../services/DietService';
-import { setChartData } from '../services/ChartService';
-import { getFilterFormSettings } from '../services/FilterFormService';
-import Pagination from './Pagination';
+import { getDietRecords, UserFoodLog } from '../../services/DietService';
+import { setChartData } from '../../services/ChartService';
+import { getFilterFormSettings } from '../../services/FilterFormService';
+import Pagination from '../dashboard/Pagination';
 
 function DietRecords() {
   const [dietRecords, setDietRecords] = useState<UserFoodLog[]>([]);
