@@ -11,10 +11,11 @@ interface CustomDataGridProps {
   data: any[];
   columns: Column[];
   pageCount: number;
-  onPageChange: (event: { selected: number }) => void;
+  onPageChange: (selectedPage: number) => void;
+  currentPage: number;
 }
 
-function CustomDataGrid({ data, columns, pageCount, onPageChange }: CustomDataGridProps) {
+function CustomDataGrid({ data, columns, pageCount, onPageChange, currentPage }: CustomDataGridProps) {
   return (
     <div className="w-full">
       <div className="overflow-x-auto">
@@ -40,7 +41,7 @@ function CustomDataGrid({ data, columns, pageCount, onPageChange }: CustomDataGr
         </table>
       </div>
       <div className="flex justify-center mt-4">
-        <Pagination pageCount={pageCount} onPageChange={onPageChange} />
+        <Pagination pageCount={pageCount} onPageChange={onPageChange} currentPage={currentPage} />
       </div>
     </div>
   );

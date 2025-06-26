@@ -60,8 +60,8 @@ function DietRecords() {
     return () => filterSubscription.unsubscribe();
   }, []); // Only re-run when filter settings change (implicitly handled by subscription)
 
-  const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * dataGridState.itemsPerPage);
+  const handlePageClick = (selectedPage: number) => {
+    const newOffset = (selectedPage * dataGridState.itemsPerPage);
     dietDataGridService.setItemOffset(newOffset);
   };
 
@@ -124,6 +124,7 @@ function DietRecords() {
           }))}
           pageCount={dataGridState.pageCount}
           onPageChange={handlePageClick}
+          currentPage={dataGridState.itemOffset / dataGridState.itemsPerPage}
         />
       </div>
     </div>

@@ -1,29 +1,59 @@
 import React from 'react';
-import ReactPaginate from 'react-paginate';
 
 interface PaginationProps {
   pageCount: number;
-  onPageChange: (event: { selected: number }) => void;
+  onPageChange: (selectedPage: number) => void;
+  currentPage: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange, currentPage }) => {
+  const handlePageClick = (pageNumber: number) => {
+    onPageChange(pageNumber);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    const maxPagesToShow = 5; // Number of page buttons to display
+
+    let startPage = Math.max(0, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(pageCount - 1, startPage + maxPagesToShow - 1);
+
+    if (endPage - startPage + 1 < maxPagesToShow) {
+      startPage = Math.max(0, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          className={`join-item btn ${currentPage === i ? 'btn-active' : ''}`}
+          onClick={() => handlePageClick(i)}
+        >
+          {i + 1}
+        </button>
+      );
+    }
+    return pageNumbers;
+  };
+
   return (
-    <ReactPaginate
-      breakLabel="..."
-      nextLabel="Next >"
-      onPageChange={onPageChange}
-      pageRangeDisplayed={5}
-      pageCount={pageCount}
-      previousLabel="< Prev"
-      renderOnZeroPageCount={null}
-      containerClassName="join"
-      pageClassName="join-item btn"
-      activeClassName="btn-active"
-      previousLinkClassName="join-item btn"
-      nextLinkClassName="join-item btn"
-      disabledClassName="btn-disabled"
-      forcePage={0} // This will force the pagination to start at page 0
-    />
+    <div className="join">
+      <button
+        className="join-item btn"
+        onClick={() => handlePageClick(currentPage - 1)}
+        disabled={currentPage === 0}
+      >
+        «
+      </button>
+      {renderPageNumbers()}
+      <button
+        className="join-item btn"
+        onClick={() => handlePageClick(currentPage + 1)}
+        disabled={currentPage === pageCount - 1}
+      >
+        »
+      </button>
+    </div>
   );
 };
 
