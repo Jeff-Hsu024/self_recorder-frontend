@@ -18,7 +18,8 @@ interface CustomDataGridProps {
 function CustomDataGrid({ data, columns, pageCount, onPageChange, currentPage }: CustomDataGridProps) {
   return (
     <div className="w-full">
-      <div className="overflow-x-auto">
+      {/* Desktop and larger screens: Table view */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="table w-full">
           <thead>
             <tr>
@@ -40,7 +41,23 @@ function CustomDataGrid({ data, columns, pageCount, onPageChange, currentPage }:
           </tbody>
         </table>
       </div>
-      <div className="flex justify-center mt-4">
+
+      {/* Mobile and smaller screens: Card view */}
+      <div className="lg:hidden grid grid-cols-1 gap-4">
+        {data.map((item, index) => (
+          <div key={index} className="card bg-base-100 shadow-xl p-4">
+            {columns.map((column) => (
+              <div key={column.accessor} className="mb-2">
+                <div className="font-bold">{column.header}</div>
+                <div>{column.render ? column.render(item) : item[column.accessor]}</div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination is only shown on larger screens */}
+      <div className="hidden lg:flex justify-center mt-4">
         <Pagination pageCount={pageCount} onPageChange={onPageChange} currentPage={currentPage} />
       </div>
     </div>

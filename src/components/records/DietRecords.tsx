@@ -110,15 +110,20 @@ function DietRecords() {
           columns={dietColumns.map(col => ({
             ...col,
             header: (
-              <div className="flex items-center cursor-pointer" onClick={() => handleSort(col.accessor as keyof UserFoodLog)}>
-                {col.header}
-                {dataGridState.sortColumn === col.accessor && (
-                  dataGridState.sortDirection === 'asc' ? (
-                    <IconRender iconName="MdArrowUpward" className="size-4 ml-1" />
-                  ) : (
-                    <IconRender iconName="MdArrowDownward" className="size-4 ml-1" />
-                  )
-                )}
+              <div className="flex items-center">
+                {/* Only allow sorting on larger screens (lg and up) */}
+                <div className="hidden lg:flex items-center cursor-pointer" onClick={() => handleSort(col.accessor as keyof UserFoodLog)}>
+                  {col.header}
+                  {dataGridState.sortColumn === col.accessor && (
+                    dataGridState.sortDirection === 'asc' ? (
+                      <IconRender iconName="MdArrowUpward" className="size-4 ml-1" />
+                    ) : (
+                      <IconRender iconName="MdArrowDownward" className="size-4 ml-1" />
+                    )
+                  )}
+                </div>
+                {/* Show plain header on smaller screens */}
+                <span className="lg:hidden">{col.header}</span>
               </div>
             ),
           }))}
