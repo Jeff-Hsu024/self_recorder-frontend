@@ -6,3 +6,37 @@
 * {
     font-family: 'Fira Code','Noto Sans CJK TC', monospace;
 }
+
+.lg\:sidebar-collapsed {
+  width: 5rem; /* Equivalent to w-20 */
+}
+
+.lg\:sidebar-collapsed .menu {
+  width: 5rem; /* Equivalent to w-20 */
+}
+
+.drawer-side {
+  transition: width 0.3s ease-in-out;
+}
+
+.drawer-side .menu {
+  transition: width 0.3s ease-in-out;
+}
+
+.sidebar-text-content {
+  overflow: hidden;
+  white-space: nowrap; /* 防止文字換行 */
+  transition: opacity 0.1s ease-in-out, max-width 0.1s ease-in-out;
+}
+
+.drawer-side:not(.lg\:sidebar-collapsed) .sidebar-text-content {
+  opacity: 1;
+  max-width: 200px; /* 設定一個足夠大的最大寬度 */
+  transition-delay: 0.1s; /* 展開時延遲0.1s */
+}
+
+.lg\:sidebar-collapsed .sidebar-text-content {
+  opacity: 0;
+  max-width: 0;
+  transition-delay: 0s; /* 收合時立即開始 */
+}
