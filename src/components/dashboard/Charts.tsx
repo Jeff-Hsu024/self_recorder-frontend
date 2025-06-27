@@ -28,7 +28,13 @@ ChartJS.register(
   Legend
 );
 
-function Charts() {
+type ChartType = 'bar' | 'line' | 'pie';
+
+interface ChartsProps {
+  chartType: ChartType;
+}
+
+function Charts({ chartType }: ChartsProps) {
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
     datasets: [
@@ -41,22 +47,10 @@ function Charts() {
       },
     ],
   });
-  const [chartType, setChartType] = useState<'bar' | 'pie' | 'line'>('bar');
   const [selectedLabels, setSelectedLabels] = useState<Record<string, boolean>>({});
 
   const getDaisyUIColor = useCallback((cssVar: string, opacity: number = 1) => {
-    if (typeof document === 'undefined') return `rgba(0,0,0,${opacity})`; // For SSR or testing
-    // Convert HSL to RGB if necessary, or handle direct RGB/hex
-    // For simplicity, assuming DaisyUI colors are already in a format Chart.js can use directly or as RGB parts
-    // DaisyUI colors are typically in HSL format, e.g., "210 100% 50%"
-    // We need to convert them to rgba. A simple approach is to use a fixed set of colors or parse HSL.
-    // For now, let's use a fallback or assume direct RGB if available.
-    // A more robust solution would involve a HSL to RGB conversion utility.
-    // For demonstration, let's use a few fixed DaisyUI CSS variables and convert them to rgba.
-    // DaisyUI colors are often defined as --p: 210 100% 50%; (hue saturation lightness)
-    // We need to convert these to rgba.
-    // A quick way to get a consistent set of colors is to define them directly or use a utility.
-    // For now, let's use a simple approach by defining a few common DaisyUI colors.
+    if (typeof document === 'undefined') return `rgba(0,0,0,${opacity})`;
     const colorMap: { [key: string]: string } = {
       '--p': `rgba(59, 130, 246, ${opacity})`, // blue-500
       '--s': `rgba(16, 185, 129, ${opacity})`, // emerald-500
@@ -68,7 +62,7 @@ function Charts() {
       '--er': `rgba(239, 68, 68, ${opacity})`, // red-500
       '--in': `rgba(96, 165, 250, ${opacity})`, // blue-400
     };
-    return colorMap[cssVar] || `rgba(0,0,0,${opacity})`; // Fallback to black
+    return colorMap[cssVar] || `rgba(0,0,0,${opacity})`;
   }, []);
 
   const getChartColors = useCallback((count: number, opacity: number) => {
@@ -82,36 +76,21 @@ function Charts() {
 
   useEffect(() => {
     const subscription = getChartData().subscribe((data) => {
-      const foodCategories = [...new Set(data.labels)];
-      const categoryCalories = foodCategories.map((category) => {
-        return data.datasets[0].data.reduce((sum, calorie, index) => {
-          if (data.labels[index] === category) {
-            return sum + calorie;
-          }
-          return sum;
-        }, 0);
+      // Apply colors based on the data received from ChartService
+      const newDatasets = data.datasets.map(dataset => ({
+        ...dataset,
+        backgroundColor: getChartColors(data.labels.length, 0.6),
+        borderColor: getChartColors(data.labels.length, 1),
+      }));
+
+      setChartData({
+        labels: data.labels,
+        datasets: newDatasets,
       });
-
-      const backgroundColors = getChartColors(foodCategories.length, 0.6);
-      const borderColors = getChartColors(foodCategories.length, 1);
-
-      const newChartData = {
-        labels: foodCategories,
-        datasets: [
-          {
-            label: 'Calories',
-            data: categoryCalories,
-            backgroundColor: backgroundColors,
-            borderColor: borderColors,
-            borderWidth: 1,
-          },
-        ],
-      };
-      setChartData(newChartData);
 
       // Initialize selectedLabels with all labels selected
       const initialSelectedLabels: Record<string, boolean> = {};
-      foodCategories.forEach((label) => {
+      data.labels.forEach((label) => {
         initialSelectedLabels[label] = true;
       });
       setSelectedLabels(initialSelectedLabels);
@@ -121,32 +100,16 @@ function Charts() {
     const observer = new MutationObserver(() => {
       // Re-fetch or re-calculate colors when theme changes
       getChartData().subscribe((data) => {
-        const foodCategories = [...new Set(data.labels)];
-        const categoryCalories = foodCategories.map((category) => {
-          return data.datasets[0].data.reduce((sum, calorie, index) => {
-            if (data.labels[index] === category) {
-              return sum + calorie;
-            }
-            return sum;
-          }, 0);
+        const newDatasets = data.datasets.map(dataset => ({
+          ...dataset,
+          backgroundColor: getChartColors(data.labels.length, 0.6),
+          borderColor: getChartColors(data.labels.length, 1),
+        }));
+
+        setChartData({
+          labels: data.labels,
+          datasets: newDatasets,
         });
-
-        const backgroundColors = getChartColors(foodCategories.length, 0.6);
-        const borderColors = getChartColors(foodCategories.length, 1);
-
-        const newChartData = {
-          labels: foodCategories,
-          datasets: [
-            {
-              label: 'Calories',
-              data: categoryCalories,
-              backgroundColor: backgroundColors,
-              borderColor: borderColors,
-              borderWidth: 1,
-            },
-          ],
-        };
-        setChartData(newChartData);
       });
     });
 
@@ -164,66 +127,54 @@ function Charts() {
       legend: {
         position: 'top' as const,
         labels: {
-          color: getDaisyUIColor('--bc'), // Use base content color for legend labels
+          color: getDaisyUIColor('--bc'),
         },
       },
       title: {
         display: true,
         text: 'Diet Records Chart',
-        color: getDaisyUIColor('--bc'), // Use base content color for title
+        color: getDaisyUIColor('--bc'),
       },
     },
     scales: {
       x: {
         ticks: {
-          color: getDaisyUIColor('--bc'), // Use base content color for x-axis ticks
+          color: getDaisyUIColor('--bc'),
         },
         grid: {
-          color: getDaisyUIColor('--b3', 0.5), // Use base-300 with opacity for grid lines
+          color: getDaisyUIColor('--b3', 0.5),
         },
       },
       y: {
         ticks: {
-          color: getDaisyUIColor('--bc'), // Use base content color for y-axis ticks
+          color: getDaisyUIColor('--bc'),
         },
         grid: {
-          color: getDaisyUIColor('--b3', 0.5), // Use base-300 with opacity for grid lines
+          color: getDaisyUIColor('--b3', 0.5),
         },
       },
     },
   };
 
   const renderChart = () => {
-    const filteredLabels = Object.keys(selectedLabels).filter((label) => selectedLabels[label]);
-    const filteredChartData = {
-      labels: filteredLabels,
-      datasets: [
-        {
-          ...chartData.datasets[0],
-          data: chartData.datasets[0].data.filter((_, index) => filteredLabels.includes(chartData.labels[index])),
-        },
-      ],
-    };
-
+    // The filtering logic for selectedLabels is not directly used here as the data is already grouped
+    // If filtering by selected labels is still desired, it needs to be re-evaluated based on the grouped data structure.
+    // For now, we'll render the chart with the data as provided by chartData state.
     switch (chartType) {
       case 'bar':
-        return <Bar options={options} data={filteredChartData} />;
+        return <Bar options={options} data={chartData} />;
       case 'pie':
-        return <Pie options={options} data={filteredChartData} />;
+        return <Pie options={options} data={chartData} />;
       case 'line':
-        return <Line options={options} data={filteredChartData} />;
+        return <Line options={options} data={chartData} />;
       default:
-        return <Bar options={options} data={filteredChartData} />;
+        return <Bar options={options} data={chartData} />;
     }
   };
 
   return (
     <div className="bg-base-100 rounded-lg shadow-md p-4 w-full">
-      <div className="flex justify-around mb-4">
-        <button className="btn btn-sm" onClick={() => setChartType('bar')}>Bar</button>
-        <button className="btn btn-sm" onClick={() => setChartType('pie')}>Pie</button>
-        <button className="btn btn-sm" onClick={() => setChartType('line')}>Line</button>
-      </div>
+      {/* The chart type selection buttons are now handled by DietRecords.tsx */}
       {renderChart()}
     </div>
   );

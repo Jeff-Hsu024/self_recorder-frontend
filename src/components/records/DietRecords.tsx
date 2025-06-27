@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getDietRecords, UserFoodLog } from '../../services/DietService';
-import { setChartData } from '../../services/ChartService';
+import { setChartData, groupDataByDay, groupDietDataForPieChart } from '../../services/ChartService';
 import { getFilterFormSettings } from '../../services/FilterFormService';
 import CustomDataGrid from '../layout/CustomDataGrid';
 import CustomDataGridService from '../../services/CustomDataGridService';
@@ -9,8 +9,12 @@ import IconRender from '../utility/IconRender';
 
 const dietDataGridService = new CustomDataGridService<UserFoodLog>();
 
+type ChartType = 'bar' | 'line' | 'pie';
+
 function DietRecords() {
   const [dataGridState, setDataGridState] = useState(dietDataGridService['dataSubject'].getValue());
+  const [currentChartType, setCurrentChartType] = useState<ChartType>('bar');
+  const [dietRecords, setDietRecords] = useState<UserFoodLog[]>([]);
 
   const dietColumns = useMemo(() => [
     { header: 'Food Name', accessor: 'foodName' },
@@ -28,17 +32,36 @@ function DietRecords() {
   useEffect(() => {
     const filterSubscription = getFilterFormSettings().subscribe((filterSettings) => {
       getDietRecords(filterSettings.startDate, filterSettings.endDate, filterSettings.keyword).subscribe((data) => {
+        setDietRecords(data); // Store raw data for chart processing
         dietDataGridService.setData(data, 0); // Reset offset to 0 when new data is fetched
+      });
+    });
+    return () => filterSubscription.unsubscribe();
+  }, []);
 
-        const labels = data.map((record) => record.foodName);
-        const calories = data.map((record) => record.calories);
-
-        const chartData = {
-          labels: labels,
+  useEffect(() => {
+    let chartData;
+    switch (currentChartType) {
+      case 'bar':
+      case 'line':
+        chartData = groupDataByDay(dietRecords, 'eatTime', 'calories');
+        // Adjust label for bar/line chart if needed
+        chartData.datasets[0].label = 'Daily Calories';
+        chartData.datasets[0].backgroundColor = chartData.labels.map(() => 'rgba(75, 192, 192, 0.6)');
+        chartData.datasets[0].borderColor = chartData.labels.map(() => 'rgba(75, 192, 192, 1)');
+        break;
+      case 'pie':
+        chartData = groupDietDataForPieChart(dietRecords, ['foodCategory', 'foodName']);
+        chartData.datasets[0].label = 'Calories by Category/Food';
+        break;
+      default:
+        // Default to a basic chart if no type is selected or recognized
+        chartData = {
+          labels: dietRecords.map((record) => record.foodName),
           datasets: [
             {
               label: 'Calories',
-              data: calories,
+              data: dietRecords.map((record) => record.calories),
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -53,12 +76,10 @@ function DietRecords() {
             },
           ],
         };
-
-        setChartData(chartData);
-      });
-    });
-    return () => filterSubscription.unsubscribe();
-  }, []); // Only re-run when filter settings change (implicitly handled by subscription)
+        break;
+    }
+    setChartData(chartData);
+  }, [dietRecords, currentChartType]); // Re-run when dietRecords or chart type changes
 
   const handlePageClick = (selectedPage: number) => {
     const newOffset = (selectedPage * dataGridState.itemsPerPage);
@@ -78,19 +99,38 @@ function DietRecords() {
 
   return (
     <div className="tabs tabs-lift">
-      <label className="tab">
-        <input type="radio" name="my_tabs_4" defaultChecked />
-        <IconRender iconName="MdBarChart" className="size-4 me-2" />
-        Charts
-      </label>
+      <input type="radio" name="my_tabs_4" id="charts_tab" className="tab" aria-label="Charts" defaultChecked />
       <div className="tab-content bg-base-100 border-base-300 p-6">
-        <Charts />
+        <div role="tablist" className="tabs tabs-boxed mb-4">
+          <a
+            role="tab"
+            className={`tab ${currentChartType === 'bar' ? 'tab-active' : ''}`}
+            onClick={() => setCurrentChartType('bar')}
+          >
+            <IconRender iconName="MdBarChart" className="size-4 me-2" />
+            Bar Chart
+          </a>
+          <a
+            role="tab"
+            className={`tab ${currentChartType === 'line' ? 'tab-active' : ''}`}
+            onClick={() => setCurrentChartType('line')}
+          >
+            <IconRender iconName="MdShowChart" className="size-4 me-2" />
+            Line Chart
+          </a>
+          <a
+            role="tab"
+            className={`tab ${currentChartType === 'pie' ? 'tab-active' : ''}`}
+            onClick={() => setCurrentChartType('pie')}
+          >
+            <IconRender iconName="MdPieChart" className="size-4 me-2" />
+            Pie Chart
+          </a>
+        </div>
+        <Charts chartType={currentChartType} />
       </div>
-      <label className="tab">
-        <input type="radio" name="my_tabs_4" />
-        <IconRender iconName="MdList" className="size-4 me-2" />
-        Records
-      </label>
+
+      <input type="radio" name="my_tabs_4" id="records_tab" className="tab" aria-label="Records" />
       <div className="tab-content bg-base-100 border-base-300 p-6">
         <div className="mb-4">
           <label htmlFor="itemsPerPage" className="label">

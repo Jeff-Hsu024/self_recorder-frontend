@@ -41,7 +41,7 @@ const mockDietData: UserFoodLog[] = generateMockDietData(200);
 const getDietRecords = (startDate: Date, endDate: Date, keyword: string) => {
   const filteredData = mockDietData.filter((record) => {
     const eatTime = new Date(record.eatTime);
-    const keywordMatch = keyword ? record.foodName.toLowerCase().includes(keyword.toLowerCase()) : true;
+    const keywordMatch = keyword ? record.foodCategory.toLowerCase().includes(keyword.toLowerCase()) : true;
     return eatTime >= startDate && eatTime <= endDate && keywordMatch;
   });
   return of(filteredData);
