@@ -109,7 +109,11 @@ function DietRecords() {
 
   return (
     <div className="tabs tabs-lift">
-      <input type="radio" name="my_tabs_4" id="charts_tab" className="tab" aria-label="Charts" defaultChecked />
+      <label htmlFor="charts_tab" className="tab">
+        <input type="radio" name="my_tabs_4" id="charts_tab" defaultChecked />
+        <IconRender iconName="MdInsertChart" className="size-4 me-2" />
+        Charts
+      </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">
         <div role="tablist" className="tabs tabs-boxed mb-4">
           <a
@@ -140,7 +144,11 @@ function DietRecords() {
         <Charts chartType={currentChartType} />
       </div>
 
-      <input type="radio" name="my_tabs_4" id="records_tab" className="tab" aria-label="Records" />
+      <label htmlFor="records_tab" className="tab">
+        <input type="radio" name="my_tabs_4" id="records_tab" />
+        <IconRender iconName="MdListAlt" className="size-4 me-2" />
+        Records
+      </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">
         <div className="mb-4">
           <label htmlFor="itemsPerPage" className="label">

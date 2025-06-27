@@ -11,6 +11,10 @@ import {
   MdCalendarMonth,
   MdBarChart,
   MdList,
+  MdShowChart,
+  MdPieChart,
+  MdInsertChart,
+  MdListAlt
 } from 'react-icons/md';
 
 interface IconRenderProps {
@@ -42,8 +46,16 @@ const IconRender: React.FC<IconRenderProps> = ({ iconName, className }) => {
       return <MdBarChart className={className} />;
     case 'MdList':
       return <MdList className={className} />;
+    case 'MdShowChart':
+      return <MdShowChart className={className} />;
+    case 'MdPieChart':
+      return <MdPieChart className={className} />; 
+    case 'MdInsertChart':
+      return <MdInsertChart className={className} />;
+    case 'MdListAlt':
+      return <MdListAlt className={className} />;    
     default:
-      return null;
+      return undefined;
   }
 };
 
