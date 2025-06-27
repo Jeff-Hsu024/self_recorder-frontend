@@ -36,7 +36,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="drawer lg:drawer-open p-4">
+    <div className="drawer lg:drawer-open pt-4">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" ref={drawerToggleRef} />
       <div className="drawer-content flex flex-col pl-4 pr-8 w-full">
         <label htmlFor="my-drawer-2" className="btn btn-outline drawer-button lg:hidden mt-4">Open menu</label>
