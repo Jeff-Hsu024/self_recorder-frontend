@@ -47,7 +47,6 @@ function Charts({ chartType }: ChartsProps) {
       },
     ],
   });
-  const [selectedLabels, setSelectedLabels] = useState<Record<string, boolean>>({});
 
   const getDaisyUIColor = useCallback((cssVar: string, opacity: number = 1) => {
     if (typeof document === 'undefined') return `rgba(0,0,0,${opacity})`;
@@ -87,13 +86,6 @@ function Charts({ chartType }: ChartsProps) {
         labels: data.labels,
         datasets: newDatasets,
       });
-
-      // Initialize selectedLabels with all labels selected
-      const initialSelectedLabels: Record<string, boolean> = {};
-      data.labels.forEach((label) => {
-        initialSelectedLabels[label] = true;
-      });
-      setSelectedLabels(initialSelectedLabels);
     });
 
     // Listen for theme changes (e.g., by observing the data-theme attribute on html)
@@ -157,9 +149,6 @@ function Charts({ chartType }: ChartsProps) {
   };
 
   const renderChart = () => {
-    // The filtering logic for selectedLabels is not directly used here as the data is already grouped
-    // If filtering by selected labels is still desired, it needs to be re-evaluated based on the grouped data structure.
-    // For now, we'll render the chart with the data as provided by chartData state.
     switch (chartType) {
       case 'bar':
         return <Bar options={options} data={chartData} />;
@@ -174,7 +163,6 @@ function Charts({ chartType }: ChartsProps) {
 
   return (
     <div className="bg-base-100 rounded-lg shadow-md p-4 w-full">
-      {/* The chart type selection buttons are now handled by DietRecords.tsx */}
       {renderChart()}
     </div>
   );
