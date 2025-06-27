@@ -16,11 +16,18 @@ const generateMockDietData = (count: number): UserFoodLog[] => {
   const foodNames = ['Pizza', 'Burger', 'Salad', 'Steak', 'Chicken', 'Fish', 'Pasta', 'Rice', 'Bread', 'Eggs', 'Milk', 'Cheese', 'Yogurt', 'Apple', 'Banana', 'Orange', 'Grapes', 'Carrot', 'Broccoli', 'Spinach'];
   const foodCategories = ['Fast Food', 'Healthy', 'Meat', 'Seafood', 'Italian', 'Grain', 'Protein', 'Dairy', 'Fruit', 'Vegetable'];
 
+  // Generate data for the last 90 days to provide a wider range for filtering
+  const now = new Date();
+  const ninetyDaysAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 90);
+
   for (let i = 1; i <= count; i++) {
     const randomFoodName = foodNames[Math.floor(Math.random() * foodNames.length)];
     const randomCalories = Math.floor(Math.random() * 600) + 50; // 50-650 calories
     const randomCategory = foodCategories[Math.floor(Math.random() * foodCategories.length)];
-    const randomDate = new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000); // Last 30 days
+
+    // Generate a random date within the last 90 days
+    const randomTimeOffset = Math.random() * (now.getTime() - ninetyDaysAgo.getTime());
+    const randomDate = new Date(ninetyDaysAgo.getTime() + randomTimeOffset);
 
     data.push({
       userFoodLogId: i,

@@ -35,39 +35,109 @@ const getChartData = () => {
   return chartDataSubject.asObservable();
 };
 
-// Generic function to group data by a date property (e.g., eatTime)
-function groupDataByDay<T extends { [key: string]: any }>(
-  data: T[],
-  dateProp: keyof T,
-  valueProp: keyof T
+// Helper to check if two dates are on the same day
+const isSameDay = (d1: Date, d2: Date) => {
+  return d1.getFullYear() === d2.getFullYear() &&
+         d1.getMonth() === d2.getMonth() &&
+         d1.getDate() === d2.getDate();
+};
+
+// Function to group diet data for bar and line charts with priority
+function groupDietDataForBarLineChart(
+  data: UserFoodLog[],
+  startDate: Date | null,
+  endDate: Date | null
 ): ChartData {
   const groupedData: { [key: string]: number } = {};
+  let primaryGroupingProp: 'day' | 'foodCategory' | 'foodName';
+  let labelPrefix: string = '';
 
-  data.forEach((item) => {
-    const date = new Date(item[dateProp]);
-    const day = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
-    const value = parseFloat(item[valueProp]);
+  // Determine if all records fall within a single day based on filter dates
+  // Only consider grouping by category/food name if both start and end dates are provided and are the same day.
+  const allOnSameDay = startDate && endDate && isSameDay(startDate, endDate);
 
-    if (!isNaN(value)) {
-      groupedData[day] = (groupedData[day] || 0) + value;
+  if (allOnSameDay) {
+    const categories = new Set(data.map(item => item.foodCategory));
+    if (categories.size > 1) {
+      primaryGroupingProp = 'foodCategory';
+      labelPrefix = 'Category: ';
+    } else {
+      primaryGroupingProp = 'foodName';
+      labelPrefix = 'Food: ';
     }
-  });
 
-  const labels = Object.keys(groupedData).sort();
-  const values = labels.map((label) => groupedData[label]);
+    data.forEach((item) => {
+      let key: string;
+      if (primaryGroupingProp === 'day') {
+        const date = new Date(item.eatTime);
+        key = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+      } else {
+        // Cast to ensure TypeScript knows the property exists on UserFoodLog
+        key = item[primaryGroupingProp as 'foodCategory' | 'foodName'];
+      }
+      const value = parseFloat(item.calories.toString());
+      if (!isNaN(value)) {
+        groupedData[key] = (groupedData[key] || 0) + value;
+      }
+    });
 
-  return {
-    labels: labels,
-    datasets: [
-      {
-        label: 'Daily Total',
-        data: values,
-        backgroundColor: labels.map(() => 'rgba(75, 192, 192, 0.6)'), // Example color
-        borderColor: labels.map(() => 'rgba(75, 192, 192, 1)'), // Example color
-        borderWidth: 1,
-      },
-    ],
-  };
+    const labels = Object.keys(groupedData).sort();
+    const values = labels.map((label) => groupedData[label]);
+
+    return {
+      labels: labels.map(label => `${labelPrefix}${label}`),
+      datasets: [
+        {
+          label: 'Calories',
+          data: values,
+          backgroundColor: labels.map(() => 'rgba(75, 192, 192, 0.6)'),
+          borderColor: labels.map(() => 'rgba(75, 192, 192, 1)'),
+          borderWidth: 1,
+        },
+      ],
+    };
+
+  } else {
+    // Group by day and fill in missing dates with 0
+    primaryGroupingProp = 'day';
+    labelPrefix = 'Date: ';
+
+    data.forEach((item) => {
+      const date = new Date(item.eatTime);
+      const day = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+      const value = parseFloat(item.calories.toString());
+      if (!isNaN(value)) {
+        groupedData[day] = (groupedData[day] || 0) + value;
+      }
+    });
+
+    const labels: string[] = [];
+    const values: number[] = [];
+
+    // Generate all dates between startDate and endDate (inclusive)
+    if (startDate && endDate) {
+      let currentDate = new Date(startDate);
+      while (currentDate <= endDate) {
+        const dayString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+        labels.push(`${labelPrefix}${dayString}`);
+        values.push(groupedData[dayString] || 0); // Fill 0 if no data for the day
+        currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+      }
+    }
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Calories',
+          data: values,
+          backgroundColor: labels.map(() => 'rgba(75, 192, 192, 0.6)'),
+          borderColor: labels.map(() => 'rgba(75, 192, 192, 1)'),
+          borderWidth: 1,
+        },
+      ],
+    };
+  }
 }
 
 // Function to group diet data for pie charts
@@ -117,5 +187,5 @@ function groupDietDataForPieChart(
   };
 }
 
-export { setChartData, getChartData, groupDataByDay, groupDietDataForPieChart };
+export { setChartData, getChartData, groupDietDataForBarLineChart, groupDietDataForPieChart };
 export type { ChartData };
