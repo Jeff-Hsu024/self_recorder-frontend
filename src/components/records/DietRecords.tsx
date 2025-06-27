@@ -80,7 +80,7 @@ function DietRecords() {
     <div className="tabs tabs-lift">
       <label className="tab">
         <input type="radio" name="my_tabs_4" defaultChecked />
-        <IconRender iconName="MdFastfood" className="size-4 me-2" />
+        <IconRender iconName="MdBarChart" className="size-4 me-2" />
         Charts
       </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">
@@ -88,7 +88,7 @@ function DietRecords() {
       </div>
       <label className="tab">
         <input type="radio" name="my_tabs_4" />
-        <IconRender iconName="MdFastfood" className="size-4 me-2" />
+        <IconRender iconName="MdList" className="size-4 me-2" />
         Records
       </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">

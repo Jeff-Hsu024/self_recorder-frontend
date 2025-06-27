@@ -9,6 +9,8 @@ import {
   MdFilterList,
   MdSearch,
   MdCalendarMonth,
+  MdBarChart,
+  MdList,
 } from 'react-icons/md';
 
 interface IconRenderProps {
@@ -36,6 +38,10 @@ const IconRender: React.FC<IconRenderProps> = ({ iconName, className }) => {
       return <MdSearch className={className} />;
     case 'MdCalendarMonth':
       return <MdCalendarMonth className={className} />;
+    case 'MdBarChart':
+      return <MdBarChart className={className} />;
+    case 'MdList':
+      return <MdList className={className} />;
     default:
       return null;
   }
