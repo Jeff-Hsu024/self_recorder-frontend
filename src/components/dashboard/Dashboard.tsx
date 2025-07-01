@@ -44,7 +44,7 @@ function Dashboard() {
         <br />
         <Outlet />
       </div>
-      <div className={`drawer-side ${isSidebarCollapsed ? 'lg:sidebar-collapsed' : ''}`} onClick={handleSidebarClick}>
+      <div className={`drawer-side ${isSidebarCollapsed ? 'lg:sidebar-collapsed' : ''} h-full`} onClick={handleSidebarClick}>
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
         <ul className={`menu p-4 min-h-full bg-base-200 text-base-content lg:${isSidebarCollapsed ? 'w-20' : 'w-80'} w-80`}>
           {/* Sidebar content here */}

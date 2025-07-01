@@ -164,7 +164,7 @@ function Charts({ chartType, title }: ChartsProps) {
   };
 
   return (
-    <div className="relative bg-base-100 rounded-lg shadow-md p-4 w-full lg:w-full mx-auto h-100">
+    <div className="relative bg-base-100 rounded-lg shadow-md p-4 w-full lg:w-full mx-auto h-120">
       {renderChart()}
     </div>
   );
