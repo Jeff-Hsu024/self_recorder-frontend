@@ -14,7 +14,8 @@ import {
   MdShowChart,
   MdPieChart,
   MdInsertChart,
-  MdListAlt
+  MdListAlt,
+  MdMenu
 } from 'react-icons/md';
 
 interface IconRenderProps {
@@ -53,7 +54,9 @@ const IconRender: React.FC<IconRenderProps> = ({ iconName, className }) => {
     case 'MdInsertChart':
       return <MdInsertChart className={className} />;
     case 'MdListAlt':
-      return <MdListAlt className={className} />;    
+      return <MdListAlt className={className} />;
+    case 'MdMenu':
+      return <MdMenu className={className} />;
     default:
       return undefined;
   }

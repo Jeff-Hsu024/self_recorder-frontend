@@ -12,9 +12,27 @@ function Dashboard() {
   });
   const drawerToggleRef = useRef<HTMLInputElement>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     initializeFilterFormSettings(filterSettings);
+
+    const drawerToggle = drawerToggleRef.current;
+    const handleChange = () => {
+      if (drawerToggle) {
+        setIsDrawerOpen(drawerToggle.checked);
+      }
+    };
+
+    if (drawerToggle) {
+      drawerToggle.addEventListener('change', handleChange);
+    }
+
+    return () => {
+      if (drawerToggle) {
+        drawerToggle.removeEventListener('change', handleChange);
+      }
+    };
   }, []);
 
   const handleFilterChange = (startDate: Date, endDate: Date, keyword: string) => {
@@ -31,6 +49,8 @@ function Dashboard() {
         setIsSidebarCollapsed(!isSidebarCollapsed);
       } else { // Always close the drawer on small screens
         drawerToggleRef.current.checked = false;
+        // Manually trigger state update because direct DOM manipulation doesn't trigger 'change' event
+        setIsDrawerOpen(false);
       }
     }
   };
@@ -38,8 +58,16 @@ function Dashboard() {
   return (
     <div className="drawer lg:drawer-open pt-4">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" ref={drawerToggleRef} />
-      <div className="drawer-content flex flex-col pl-4 pr-8 w-full">
-        <label htmlFor="my-drawer-2" className="btn btn-outline drawer-button lg:hidden mt-4">Open menu</label>
+      <div className="drawer-content flex flex-col pl-4 pr-8 w-full relative">
+        {/* Floating menu button for mobile */}
+        <label
+          htmlFor="my-drawer-2"
+          className={`fixed top-30 left-0 z-50 flex items-center justify-center p-2 bg-base-200 border border-l-0 border-base-300 rounded-r-lg shadow-lg cursor-pointer lg:hidden ${isDrawerOpen ? 'hidden' : ''}`}
+          aria-label="open sidebar"
+        >
+          <IconRender iconName="MdMenu" className="size-6" />
+          <span className="ml-2">Records</span>
+        </label>
         <FilterForm onFilterChange={handleFilterChange} />
         <br />
         <Outlet />
