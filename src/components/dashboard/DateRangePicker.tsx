@@ -16,10 +16,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 }) => {
   const handleDateChange = (handler: (date: Date) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const dateValue = e.target.value;
-    // The input type="date" gives a string like "YYYY-MM-DD".
-    // new Date() will parse this as UTC midnight. To treat it as local date,
-    // we can append 'T00:00:00' which is interpreted in the local timezone.
-    const date = new Date(`${dateValue}T00:00:00`);
+    
+    const regex = /^\d{4}-\d{2}-\d{2}$/
+    if (!regex.test(dateValue)) {
+      return;
+    }
+
+    const date = new Date(`${dateValue}`);
 
     if (!isNaN(date.getTime())) {
       handler(date);
