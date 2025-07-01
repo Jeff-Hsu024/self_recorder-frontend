@@ -141,7 +141,7 @@ function DietRecords() {
             Pie Chart
           </a>
         </div>
-        <Charts chartType={currentChartType} />
+        <Charts chartType={currentChartType} title="Diet Records" />
       </div>
 
       <label htmlFor="records_tab" className="tab">

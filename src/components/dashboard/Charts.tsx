@@ -32,9 +32,10 @@ type ChartType = 'bar' | 'line' | 'pie';
 
 interface ChartsProps {
   chartType: ChartType;
+  title: string;
 }
 
-function Charts({ chartType }: ChartsProps) {
+function Charts({ chartType, title }: ChartsProps) {
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
     datasets: [
@@ -115,6 +116,7 @@ function Charts({ chartType }: ChartsProps) {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top' as const,
@@ -124,7 +126,7 @@ function Charts({ chartType }: ChartsProps) {
       },
       title: {
         display: true,
-        text: 'Diet Records Chart',
+        text: title,
         color: getDaisyUIColor('--bc'),
       },
     },
@@ -162,7 +164,7 @@ function Charts({ chartType }: ChartsProps) {
   };
 
   return (
-    <div className="bg-base-100 rounded-lg shadow-md p-4 w-full">
+    <div className="relative bg-base-100 rounded-lg shadow-md p-4 w-full lg:w-full mx-auto h-100">
       {renderChart()}
     </div>
   );
