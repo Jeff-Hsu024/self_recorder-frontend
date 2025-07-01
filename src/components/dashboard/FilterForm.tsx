@@ -30,36 +30,74 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
   };
 
   return (
-    <fieldset className="border p-4 rounded-lg">
-      <legend className="text-lg font-semilight flex items-center">
-        <IconRender iconName="MdFilterList" className="size-5 mr-2" />
-        Filter
-      </legend>
-      <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 w-full">
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-        />
-        <div className="form-control w-full">
-          <label className="label" htmlFor="keyword">
-            <span className="label-text flex items-center">
-              <IconRender iconName="MdSearch" className="size-5 mr-2" />
-              Keyword:
-            </span>
-          </label>
-          <input
-            type="text"
-            id="keyword"
-            className="input input-bordered w-full"
-            value={keyword}
-            onChange={handleKeywordChange}
-            placeholder="type keyword"
-          />
+    <div className="sm:border sm:p-4 sm:rounded-lg">
+      {/* On small screens, this will be a collapse component */}
+      <div className="collapse collapse-arrow border rounded-lg sm:hidden">
+        <input type="checkbox" />
+        <div className="collapse-title text-lg font-semilight flex items-center">
+          <IconRender iconName="MdFilterList" className="size-5 mr-2" />
+          Filter
+        </div>
+        <div className="collapse-content">
+          <div className="flex flex-col space-y-4 w-full">
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              onStartDateChange={handleStartDateChange}
+              onEndDateChange={handleEndDateChange}
+            />
+            <div className="form-control w-full">
+              <label className="label" htmlFor="keyword-mobile">
+                <span className="label-text flex items-center">
+                  <IconRender iconName="MdSearch" className="size-5 mr-2" />
+                  Keyword:
+                </span>
+              </label>
+              <input
+                type="text"
+                id="keyword-mobile"
+                className="input input-bordered w-full"
+                value={keyword}
+                onChange={handleKeywordChange}
+                placeholder="type keyword"
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </fieldset>
+
+      {/* On medium screens and up, this will be the regular form */}
+      <div className="hidden sm:flex sm:flex-col sm:space-y-4">
+        <legend className="text-lg font-semilight flex items-center mb-4">
+          <IconRender iconName="MdFilterList" className="size-5 mr-2" />
+          Filter
+        </legend>
+        <div className="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0 w-full">
+          <DateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+          />
+          <div className="form-control w-full">
+            <label className="label" htmlFor="keyword-desktop">
+              <span className="label-text flex items-center">
+                <IconRender iconName="MdSearch" className="size-5 mr-2" />
+                Keyword:
+              </span>
+            </label>
+            <input
+              type="text"
+              id="keyword-desktop"
+              className="input input-bordered w-full"
+              value={keyword}
+              onChange={handleKeywordChange}
+              placeholder="type keyword"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

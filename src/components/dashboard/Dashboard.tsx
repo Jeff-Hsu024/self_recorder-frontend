@@ -61,12 +61,12 @@ function Dashboard() {
       <div className="drawer-content flex flex-col pl-4 pr-8 w-full relative">
         {/* Floating menu button for mobile */}
         <div
-          className={`tooltip tooltip-right fixed top-20 left-0 z-50 lg:hidden ${isDrawerOpen ? 'hidden' : ''}`}
+          className={`tooltip tooltip-right fixed top-16 left-2 z-50 lg:hidden ${isDrawerOpen ? 'hidden' : ''}`}
           data-tip="Records"
         >
           <label
             htmlFor="my-drawer-2"
-            className="btn btn bg-base-200 border-base-300 shadow-lg"
+            className="btn btn-circle bg-base-200 border-base-300 shadow-lg"
             aria-label="open sidebar"
           >
             <IconRender iconName="MdMenu" className="size-6" />
@@ -76,9 +76,9 @@ function Dashboard() {
         <br />
         <Outlet />
       </div>
-      <div className={`drawer-side ${isSidebarCollapsed ? 'lg:sidebar-collapsed' : ''} h-full`} onClick={handleSidebarClick}>
+      <div className={`drawer-side overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'lg:w-20' : 'lg:w-80'}`} onClick={handleSidebarClick}>
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className={`menu p-4 min-h-full bg-base-200 text-base-content lg:${isSidebarCollapsed ? 'w-20' : 'w-80'} w-80`}>
+        <ul className="menu p-4 min-h-full bg-base-200 text-base-content w-80">
           {/* Sidebar content here */}
           <li>
             <NavLink
