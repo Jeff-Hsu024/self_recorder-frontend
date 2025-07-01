@@ -60,14 +60,18 @@ function Dashboard() {
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" ref={drawerToggleRef} />
       <div className="drawer-content flex flex-col pl-4 pr-8 w-full relative">
         {/* Floating menu button for mobile */}
-        <label
-          htmlFor="my-drawer-2"
-          className={`fixed top-30 left-0 z-50 flex items-center justify-center p-2 bg-base-200 border border-l-0 border-base-300 rounded-r-lg shadow-lg cursor-pointer lg:hidden ${isDrawerOpen ? 'hidden' : ''}`}
-          aria-label="open sidebar"
+        <div
+          className={`tooltip tooltip-right fixed top-20 left-0 z-50 lg:hidden ${isDrawerOpen ? 'hidden' : ''}`}
+          data-tip="Records"
         >
-          <IconRender iconName="MdMenu" className="size-6" />
-          <span className="ml-2">Records</span>
-        </label>
+          <label
+            htmlFor="my-drawer-2"
+            className="btn btn bg-base-200 border-base-300 shadow-lg"
+            aria-label="open sidebar"
+          >
+            <IconRender iconName="MdMenu" className="size-6" />
+          </label>
+        </div>
         <FilterForm onFilterChange={handleFilterChange} />
         <br />
         <Outlet />
