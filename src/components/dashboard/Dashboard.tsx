@@ -61,7 +61,7 @@ function Dashboard() {
       <div className="drawer-content flex flex-col pl-4 pr-8 w-full relative">
         {/* Floating menu button for mobile */}
         <div
-          className={`tooltip tooltip-right fixed top-16 left-2 z-50 lg:hidden ${isDrawerOpen ? 'hidden' : ''}`}
+          className={`tooltip tooltip-right fixed top-16 left-2 z-50 lg:hidden opacity-90 hover:opacity-100 transition-opacity ${isDrawerOpen ? 'hidden' : ''}`}
           data-tip="Records"
         >
           <label
@@ -76,7 +76,7 @@ function Dashboard() {
         <br />
         <Outlet />
       </div>
-      <div className={`drawer-side overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'lg:w-20' : 'lg:w-80'}`} onClick={handleSidebarClick}>
+      <div className={`drawer-side overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'lg:w-20' : 'lg:w-80'} h-full`} onClick={handleSidebarClick}>
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
         <ul className="menu p-4 min-h-full bg-base-200 text-base-content w-80">
           {/* Sidebar content here */}
