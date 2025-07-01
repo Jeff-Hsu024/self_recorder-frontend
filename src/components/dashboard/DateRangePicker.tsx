@@ -14,6 +14,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   onStartDateChange,
   onEndDateChange,
 }) => {
+  const handleDateChange = (handler: (date: Date) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const date = new Date(e.target.value);
+    // Adjust for timezone offset to prevent date changes
+    const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+    handler(new Date(date.getTime() + userTimezoneOffset));
+  };
+
   return (
     <>
       <div className="form-control w-full">
@@ -28,7 +35,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           id="startDate"
           className="input input-bordered w-full"
           value={startDate.toISOString().split('T')[0]}
-          onChange={(e) => onStartDateChange(new Date(e.target.value))}
+          onChange={handleDateChange(onStartDateChange)}
           required
         />
       </div>
@@ -44,7 +51,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           id="endDate"
           className="input input-bordered w-full"
           value={endDate.toISOString().split('T')[0]}
-          onChange={(e) => onEndDateChange(new Date(e.target.value))}
+          onChange={handleDateChange(onEndDateChange)}
           required
         />
       </div>

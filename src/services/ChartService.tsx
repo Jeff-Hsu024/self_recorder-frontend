@@ -100,14 +100,14 @@ function groupDietDataForBarLineChart(
   } else {
     // Group by day and fill in missing dates with 0
     primaryGroupingProp = 'day';
-    labelPrefix = 'Date: ';
+    labelPrefix = '';
 
     data.forEach((item) => {
       const date = new Date(item.eatTime);
-      const day = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+      const dayKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
       const value = parseFloat(item.calories.toString());
       if (!isNaN(value)) {
-        groupedData[day] = (groupedData[day] || 0) + value;
+        groupedData[dayKey] = (groupedData[dayKey] || 0) + value;
       }
     });
 
@@ -116,11 +116,32 @@ function groupDietDataForBarLineChart(
 
     // Generate all dates between startDate and endDate (inclusive)
     if (startDate && endDate) {
+      const startYear = startDate.getFullYear();
+      const endYear = endDate.getFullYear();
+      const startMonth = startDate.getMonth();
+      const endMonth = endDate.getMonth();
+
+      const sameYear = startYear === endYear;
+      const sameMonth = sameYear && startMonth === endMonth;
+      
       let currentDate = new Date(startDate);
       while (currentDate <= endDate) {
-        const dayString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
-        labels.push(`${labelPrefix}${dayString}`);
-        values.push(groupedData[dayString] || 0); // Fill 0 if no data for the day
+        const year = currentDate.getFullYear();
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = currentDate.getDate().toString().padStart(2, '0');
+        const dayKey = `${year}-${month}-${day}`;
+        
+        let displayFormat: string;
+        if (sameMonth) { // This implies sameYear is true
+          displayFormat = day;
+        } else if (sameYear) {
+          displayFormat = `${month}-${day}`;
+        } else {
+          displayFormat = dayKey;
+        }
+
+        labels.push(`${labelPrefix}${displayFormat}`);
+        values.push(groupedData[dayKey] || 0); // Fill 0 if no data for the day
         currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
       }
     }
