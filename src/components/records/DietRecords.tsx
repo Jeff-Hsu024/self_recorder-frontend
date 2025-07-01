@@ -91,11 +91,6 @@ function DietRecords() {
     }
   }, [dietRecords, currentChartType, filterSettings]); // Re-run when dietRecords, chart type, or filterSettings change
 
-  const handlePageClick = (selectedPage: number) => {
-    const newOffset = (selectedPage * dataGridState.itemsPerPage);
-    dietDataGridService.setItemOffset(newOffset);
-  };
-
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newItemsPerPage = parseInt(event.target.value, 10);
     if (!isNaN(newItemsPerPage) && newItemsPerPage > 0) {
@@ -150,7 +145,7 @@ function DietRecords() {
         Records
       </label>
       <div className="tab-content bg-base-100 border-base-300 p-6">
-        <div className="mb-4">
+        <div className="mb-4 hidden lg:block">
           <label htmlFor="itemsPerPage" className="label">
             <span className="label-text">size:</span>
           </label>
@@ -164,7 +159,8 @@ function DietRecords() {
           />
         </div>
         <CustomDataGrid
-          data={dataGridState.displayData}
+          data={dietRecords}
+          itemsPerPage={dataGridState.itemsPerPage}
           columns={dietColumns.map(col => ({
             ...col,
             header: (
@@ -185,9 +181,6 @@ function DietRecords() {
               </div>
             ),
           }))}
-          pageCount={dataGridState.pageCount}
-          onPageChange={handlePageClick}
-          currentPage={dataGridState.itemOffset / dataGridState.itemsPerPage}
         />
       </div>
     </div>

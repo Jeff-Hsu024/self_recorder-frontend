@@ -66,7 +66,7 @@ function Dashboard() {
         >
           <label
             htmlFor="my-drawer-2"
-            className="btn btn-circle bg-base-200 border-base-300 shadow-lg"
+            className="btn btn-outline btn-circle bg-base-100 shadow-lg"
             aria-label="open sidebar"
           >
             <IconRender iconName="MdMenu" className="size-6" />
