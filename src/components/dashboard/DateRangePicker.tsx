@@ -33,9 +33,9 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
     <>
       <div className="form-control w-full">
         <label className="label" htmlFor="startDate">
-          <span className="label-text flex items-center">
+          <span className="label-text text-sm font-semilight flex items-center">
             <IconRender iconName="MdCalendarMonth" className="size-5 mr-2" />
-            Begin Date:
+            Begin Date
           </span>
         </label>
         <input
@@ -49,9 +49,9 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       </div>
       <div className="form-control w-full">
         <label className="label" htmlFor="endDate">
-          <span className="label-text flex items-center">
+          <span className="label-text text-sm font-semilight flex items-center">
             <IconRender iconName="MdCalendarMonth" className="size-5 mr-2" />
-            End Date:
+            End Date
           </span>
         </label>
         <input

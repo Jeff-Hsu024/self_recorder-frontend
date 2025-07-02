@@ -34,7 +34,7 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
       {/* On small screens, this will be a collapse component */}
       <div className="collapse collapse-arrow border rounded-lg sm:hidden">
         <input type="checkbox" />
-        <div className="collapse-title text-lg font-semilight flex items-center">
+        <div className="collapse-title text-sm font-semilight flex items-center">
           <IconRender iconName="MdFilterList" className="size-5 mr-2" />
           Filter
         </div>
@@ -81,9 +81,9 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilterChange }) => {
           />
           <div className="form-control w-full">
             <label className="label" htmlFor="keyword-desktop">
-              <span className="label-text flex items-center">
+              <span className="label-text text-sm font-semilight flex items-center">
                 <IconRender iconName="MdSearch" className="size-5 mr-2" />
-                Keyword:
+                Keyword
               </span>
             </label>
             <input
