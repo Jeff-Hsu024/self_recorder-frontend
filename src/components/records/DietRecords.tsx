@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getDietRecords, UserFoodLog } from '../../services/DietService';
-import { setChartData, groupDietDataForBarLineChart, groupDietDataForPieChart } from '../../services/ChartService';
+import { groupDietDataForBarLineChart, groupDietDataForPieChart } from '../../services/ChartService';
 import { getFilterFormSettings } from '../../services/FilterFormService';
 import CustomDataGrid from '../layout/CustomDataGrid';
 import CustomDataGridService from '../../services/CustomDataGridService';
 import Charts from '../dashboard/Charts';
 import IconRender from '../utility/IconRender';
+import { ChartDataset } from 'chart.js';
+import { getChartColors } from '../utility/ChartUtils';
 
 const dietDataGridService = new CustomDataGridService<UserFoodLog>();
 
@@ -22,6 +24,8 @@ function DietRecords() {
     endDate: new Date(),
     keyword: '',
   });
+  const [chartLabels, setChartLabels] = useState<string[]>([]);
+  const [chartDatasets, setChartDatasets] = useState<ChartDataset<any>[]>([]);
 
   const dietColumns = useMemo(() => [
     { header: 'Food Name', accessor: 'foodName' },
@@ -48,48 +52,44 @@ function DietRecords() {
   }, []);
 
   useEffect(() => {
-    let chartData;
-    // Ensure filterSettings are available before attempting to group data for bar/line charts
+    let labels: string[] = [];
+    let datasets: ChartDataset<any>[] = [];
+
     if (filterSettings.startDate !== null && filterSettings.endDate !== null) {
       switch (currentChartType) {
         case 'bar':
         case 'line':
-          chartData = groupDietDataForBarLineChart(dietRecords, filterSettings.startDate, filterSettings.endDate);
-          // Label is now set within the grouping function
-          chartData.datasets[0].backgroundColor = chartData.labels.map(() => 'rgba(75, 192, 192, 0.6)');
-          chartData.datasets[0].borderColor = chartData.labels.map(() => 'rgba(75, 192, 192, 1)');
+          const barLineChartData = groupDietDataForBarLineChart(dietRecords, filterSettings.startDate, filterSettings.endDate);
+          labels = barLineChartData.labels;
+          datasets = barLineChartData.datasets; // Use datasets directly from ChartService, which already assigns colors by category
           break;
         case 'pie':
-          chartData = groupDietDataForPieChart(dietRecords, ['foodCategory', 'foodName']);
-          chartData.datasets[0].label = 'Calories by Category/Food';
+          const pieChartData = groupDietDataForPieChart(dietRecords, ['foodCategory', 'foodName']);
+          labels = pieChartData.labels;
+          datasets = pieChartData.datasets.map(dataset => ({
+            ...dataset,
+            label: 'Calories by Category/Food',
+            backgroundColor: getChartColors(labels.length, 0.6),
+            borderColor: getChartColors(labels.length, 1),
+          }));
           break;
         default:
-          // Default to a basic chart if no type is selected or recognized
-          chartData = {
-            labels: dietRecords.map((record) => record.foodName),
-            datasets: [
-              {
-                label: 'Calories',
-                data: dietRecords.map((record) => record.calories),
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                ],
-                borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                ],
-                borderWidth: 1,
-              },
-            ],
-          };
+          labels = dietRecords.map((record) => record.foodName);
+          datasets = [
+            {
+              label: 'Calories',
+              data: dietRecords.map((record) => record.calories),
+              backgroundColor: getChartColors(labels.length, 0.6),
+              borderColor: getChartColors(labels.length, 1),
+              borderWidth: 1,
+            },
+          ];
           break;
       }
-      setChartData(chartData);
+      setChartLabels(labels);
+      setChartDatasets(datasets);
     }
-  }, [dietRecords, currentChartType, filterSettings]); // Re-run when dietRecords, chart type, or filterSettings change
+  }, [dietRecords, currentChartType, filterSettings]);
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newItemsPerPage = parseInt(event.target.value, 10);
@@ -136,7 +136,7 @@ function DietRecords() {
             Pie Chart
           </a>
         </div>
-        <Charts chartType={currentChartType} title="Diet Records" />
+        <Charts chartType={currentChartType} title="Diet Records" labels={chartLabels} datasets={chartDatasets} />
       </div>
 
       <label htmlFor="records_tab" className="tab">
