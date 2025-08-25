@@ -7,13 +7,6 @@ interface ChartDataResult {
   datasets: ChartDataset<'bar'>[];
 }
 
-// Helper to check if two dates are on the same day
-const isSameDay = (d1: Date, d2: Date) => {
-  return d1.getFullYear() === d2.getFullYear() &&
-         d1.getMonth() === d2.getMonth() &&
-         d1.getDate() === d2.getDate();
-};
-
 // Function to group diet data for bar and line charts with priority
 function groupDietDataForBarLineChart(
   data: UserFoodLog[],

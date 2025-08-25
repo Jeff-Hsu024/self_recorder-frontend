@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { ChartDataset, ChartOptions } from 'chart.js';
-import { getDaisyUIColor } from '../utility/ChartUtils';
+import { getDaisyUIColor } from '../utility/ChartUtils'; // Keep getDaisyUIColor for legend and title colors
 
 interface BarChartProps {
   labels: string[];
@@ -25,25 +25,16 @@ const BarChart: React.FC<BarChartProps> = ({ labels, datasets, title }) => {
         text: title,
         color: getDaisyUIColor('--bc'),
       },
+      colors: {
+        enabled: true
+      }
     },
     scales: {
       x: {
         stacked: true,
-        ticks: {
-          color: getDaisyUIColor('--bc'),
-        },
-        grid: {
-          color: getDaisyUIColor('--b3', 0.5),
-        },
       },
       y: {
         stacked: true,
-        ticks: {
-          color: getDaisyUIColor('--bc'),
-        },
-        grid: {
-          color: getDaisyUIColor('--b3', 0.5),
-        },
       },
     },
   };

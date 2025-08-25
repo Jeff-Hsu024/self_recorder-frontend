@@ -7,7 +7,6 @@ import CustomDataGridService from '../../services/CustomDataGridService';
 import Charts from '../dashboard/Charts';
 import IconRender from '../utility/IconRender';
 import { ChartDataset } from 'chart.js';
-import { getChartColors } from '../utility/ChartUtils';
 
 const dietDataGridService = new CustomDataGridService<UserFoodLog>();
 
@@ -69,8 +68,7 @@ function DietRecords() {
           datasets = pieChartData.datasets.map(dataset => ({
             ...dataset,
             label: 'Calories by Category/Food',
-            backgroundColor: getChartColors(labels.length, 0.6),
-            borderColor: getChartColors(labels.length, 1),
+          
           }));
           break;
         default:
@@ -79,8 +77,6 @@ function DietRecords() {
             {
               label: 'Calories',
               data: dietRecords.map((record) => record.calories),
-              backgroundColor: getChartColors(labels.length, 0.6),
-              borderColor: getChartColors(labels.length, 1),
               borderWidth: 1,
             },
           ];

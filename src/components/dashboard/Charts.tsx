@@ -15,6 +15,7 @@ import BarChart from './BarChart';
 import LineChart from './LineChart';
 import PieChart from './PieChart';
 import { ChartDataset, ChartData } from 'chart.js';
+import { Colors } from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -26,7 +27,8 @@ ChartJS.register(
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Colors
 );
 
 type ChartType = 'bar' | 'line' | 'pie';
